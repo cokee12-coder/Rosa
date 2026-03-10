@@ -162,4 +162,34 @@ img {
     0% { opacity: 0.1; transform: scale(0.8); }
     50% { opacity: 0.3; transform: scale(1.2); }
     100% { opacity: 0.1; transform: scale(0.8); }
+
+}
+/* Mensaje romántico */
+.mensaje{
+    position: absolute;
+    top: 8%;
+    width: 100%;
+    text-align: center;
+    font-size: 42px;
+    color: white;
+    font-family: Georgia, serif;
+    letter-spacing: 4px;
+    text-shadow: 
+        0 0 10px #ff4d6d,
+        0 0 20px #ff4d6d,
+        0 0 40px #ff4d6d;
+    z-index: 5;
+    animation: aparecer 3s ease-in-out;
+}
+
+/* Animación para que aparezca suave */
+@keyframes aparecer{
+    0%{
+        opacity:0;
+        transform: translateY(-20px);
+    }
+    100%{
+        opacity:1;
+        transform: translateY(0);
+    }
 }
