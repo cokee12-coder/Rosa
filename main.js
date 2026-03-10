@@ -31,7 +31,6 @@ function createPetals() {
         img.src = petalData.path;
         img.alt = `Pétalo ${i+1}`;
         
-        // Aplicar filtros de color en lugar de sombras
         img.style.filter = `
             brightness(1.4)
             contrast(1.3)
@@ -41,10 +40,8 @@ function createPetals() {
         petal.appendChild(img);
         document.body.appendChild(petal);
         
-        // Obtener la posición en píxeles para la física
         const rect = petal.getBoundingClientRect();
         
-        // Crear el controlador de física para este pétalo
         petals.push({
             element: petal,
             physics: new PetalPhysics(petal, rect.left, rect.top, i),
@@ -61,22 +58,22 @@ function startFallingSequence() {
     
     function triggerNextPetal() {
         if (currentIndex < petals.length) {
-            // Buscar el pétalo con el índice correcto (1-8)
+
             const petalToFall = petals.find(p => p.index === currentIndex + 1);
+
             if (petalToFall) {
                 petalToFall.physics.start();
+                mostrarFrase(); // 👈 aquí aparece la frase
             }
             
             currentIndex++;
             
-            // Programar la caída del siguiente pétalo
             if (currentIndex < petals.length) {
                 setTimeout(triggerNextPetal, TIEMPO_ENTRE_PETALOS);
             }
         }
     }
     
-    // Iniciar la secuencia
     triggerNextPetal();
 }
 
@@ -84,19 +81,21 @@ function startFallingSequence() {
  * Inicializa la aplicación
  */
 function init() {
-    // Crear pétalos
+
     createPetals();
     
-    // Mejorar el cristal
     enhanceGlass();
 
-    // Iniciar la secuencia después de un breve retraso
     setTimeout(startFallingSequence, 1000);
 }
 
-// Cuando el documento esté listo, inicializar la aplicación
-
 document.addEventListener('DOMContentLoaded', init);
+
+
+/* =========================
+   FRASES DE LOS PÉTALOS
+========================= */
+
 const frases = [
 "Me gustas más que esta rosa 🌹",
 "Pensé en ti cuando hice esto",
@@ -109,26 +108,19 @@ const frases = [
 ];
 
 function mostrarFrase(){
+
     const frase = frases[Math.floor(Math.random()*frases.length)];
+
     const contenedor = document.getElementById("frasePetalo");
 
+    if(!contenedor) return;
+
     contenedor.textContent = frase;
+
     contenedor.style.opacity = 1;
 
     setTimeout(()=>{
         contenedor.style.opacity = 0;
     },3000);
+
 }
-
-/* detectar cuando aparece un pétalo */
-const observer = new MutationObserver((mutations)=>{
-    mutations.forEach(m=>{
-        m.addedNodes.forEach(node=>{
-            if(node.classList && node.classList.contains("petal")){
-                mostrarFrase();
-            }
-        });
-    });
-});
-
-observer.observe(document.body,{childList:true,subtree:true});
