@@ -209,3 +209,27 @@ img {
         0 0 20px #ff4d6d;
     z-index:6;
 }
+.boton-musica{
+    position:absolute;
+    bottom:18%;
+    width:100%;
+    text-align:center;
+    z-index:7;
+}
+
+.boton-musica a{
+    text-decoration:none;
+    background:#ff4d6d;
+    color:white;
+    padding:12px 22px;
+    border-radius:30px;
+    font-size:18px;
+    font-family:Georgia, serif;
+    box-shadow:0 0 15px rgba(255,77,109,0.6);
+    transition:0.3s;
+}
+
+.boton-musica a:hover{
+    background:#ff2e55;
+    transform:scale(1.05);
+}
