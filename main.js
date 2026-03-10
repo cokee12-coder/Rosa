@@ -95,4 +95,40 @@ function init() {
 }
 
 // Cuando el documento esté listo, inicializar la aplicación
+
 document.addEventListener('DOMContentLoaded', init);
+const frases = [
+"Me gustas más que esta rosa 🌹",
+"Pensé en ti cuando hice esto",
+"Eres más bonita que cualquier flor",
+"Si ves esto... es para ti",
+"Cada pétalo es un pensamiento en ti",
+"Solo quería hacerte sonreír",
+"Esta rosa no se compara contigo",
+"Ojalá te guste este pequeño detalle"
+];
+
+function mostrarFrase(){
+    const frase = frases[Math.floor(Math.random()*frases.length)];
+    const contenedor = document.getElementById("frasePetalo");
+
+    contenedor.textContent = frase;
+    contenedor.style.opacity = 1;
+
+    setTimeout(()=>{
+        contenedor.style.opacity = 0;
+    },3000);
+}
+
+/* detectar cuando aparece un pétalo */
+const observer = new MutationObserver((mutations)=>{
+    mutations.forEach(m=>{
+        m.addedNodes.forEach(node=>{
+            if(node.classList && node.classList.contains("petal")){
+                mostrarFrase();
+            }
+        });
+    });
+});
+
+observer.observe(document.body,{childList:true,subtree:true});
