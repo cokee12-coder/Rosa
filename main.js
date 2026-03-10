@@ -157,3 +157,71 @@ function mostrarFrase(){
     },3000);
 
 }
+/* =========================
+   FUEGOS ARTIFICIALES
+========================= */
+
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let fireworks = [];
+
+class Firework{
+    constructor(){
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height * 0.5;
+        this.particles = [];
+
+        for(let i=0;i<40;i++){
+            this.particles.push({
+                x:this.x,
+                y:this.y,
+                angle:Math.random()*Math.PI*2,
+                speed:Math.random()*4+1,
+                life:100
+            });
+        }
+    }
+
+    update(){
+        this.particles.forEach(p=>{
+            p.x += Math.cos(p.angle)*p.speed;
+            p.y += Math.sin(p.angle)*p.speed;
+            p.life--;
+        });
+    }
+
+    draw(){
+        this.particles.forEach(p=>{
+            ctx.fillStyle = "rgba(255,120,160,"+(p.life/100)+")";
+            ctx.beginPath();
+            ctx.arc(p.x,p.y,2,0,Math.PI*2);
+            ctx.fill();
+        });
+    }
+}
+
+function animateFireworks(){
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    if(Math.random()<0.03){
+        fireworks.push(new Firework());
+    }
+
+    fireworks.forEach((f,index)=>{
+        f.update();
+        f.draw();
+
+        if(f.particles[0].life <= 0){
+            fireworks.splice(index,1);
+        }
+    });
+
+    requestAnimationFrame(animateFireworks);
+}
+
+animateFireworks();
